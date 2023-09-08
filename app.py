@@ -1,8 +1,12 @@
 from pulp import *
 from flask import  Flask, jsonify, request
+from flask_cors import CORS, cross_origin
+import pyodbc
+
 app = Flask(__name__)
 
-import pyodbc
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 server = 'castingcalc.database.windows.net' # to specify an alternate port
 database = 'optimacasting' 
