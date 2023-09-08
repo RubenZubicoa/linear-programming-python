@@ -5,7 +5,7 @@ app = Flask(__name__)
 import pyodbc
 
 server = 'castingcalc.database.windows.net' # to specify an alternate port
-database = 'castingcalc' 
+database = 'optimacasting' 
 username = 'admCastingCalc' 
 password = 'akg234FMQV' 
 
@@ -18,14 +18,13 @@ cnxn_str = ("Driver={SQL Server};"
 
 @app.route("/<idFormula>/<casting>", methods=["GET"])
 def solve(idFormula, casting):
-    prob = LpProblem("Simple Diet Problem",LpMinimize)
+    prob = LpProblem("Minimize costs of production",LpMinimize)
     cnxn = pyodbc.connect(cnxn_str)
 
     cursor = cnxn.cursor()
 
     cursor.execute("SELECT * FROM formulas_simulacion where Idformula = '" + idFormula +"' and Casting = '"+ casting +"'")
     tables = cursor.fetchall()
-    #cursor.execute("SELECT WORK_ORDER.TYPE,WORK_ORDER.STATUS, WORK_ORDER.BASE_ID, WORK_ORDER.LOT_ID FROM WORK_ORDER")
     costs = {}
     carbono = {}
     si = {}
@@ -46,8 +45,6 @@ def solve(idFormula, casting):
     zzMin = {}
 
     materials = []
-
-    #costs = dict(zip(materials,df['Coste']))
 
 
     for row in tables:
